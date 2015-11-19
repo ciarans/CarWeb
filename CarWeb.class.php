@@ -17,6 +17,15 @@ class CarWeb {
     public $key;
     public $version;
 
+    /**
+     * Create a CarWeb Object
+     * @param string $username 
+     * @param string $password  
+     * @param string $client_ref 
+     * @param string $client_description 
+     * @param string $key 
+     * @param string $version
+     * */
     public function __construct($username, $password, $client_ref, $client_description, $key, $version) {
         $this->username = $username;
         $this->password = $password;
@@ -26,8 +35,14 @@ class CarWeb {
         $this->version = $version;
     }
 
+    /**
+     * Search for a UK VRM on the API
+     * @param string $reg 
+     * @param string $format 
+     * @return mixed 
+     * */
     public function search($reg, $format = "json") {
-        $response = $this->response($reg);
+        $response = $this->curl_request($reg);
         $data = NULL;
 
         switch ($format) {
@@ -43,7 +58,12 @@ class CarWeb {
         return $data;
     }
 
-    public function response($reg) {
+    /**
+     * CURL Request for CarWeb API
+     * @param string $reg 
+     * @return string 
+     * */
+    private function curl_request($reg) {
 
         $query = http_build_query(array(
             "strUserName" => $this->username,
