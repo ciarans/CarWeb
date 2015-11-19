@@ -7,10 +7,10 @@
  * @date 11/2015
  */
 class CarWeb {
-    
+
     const URL = "https://www1.carwebuk.com/CarweBVRRB2Bproxy/carwebvrrwebservice.asmx/strB2BGetVehicleByVRM?";
 
-    public $username; 
+    public $username;
     public $password;
     public $client_ref;
     public $client_desc;
@@ -26,33 +26,39 @@ class CarWeb {
         $this->version = $version;
     }
 
-    public function search($reg) {
-        return $this->response($reg);
+    public function search($reg, $format = "json") {
+        $response = $this->response($reg);
+        $data = NULL;
+
+        switch ($format) {
+            case "json":
+                $response = str_replace(array("\n", "\r", "\t"), '', $response);
+                $_trim = trim(str_replace('"', "'", $response));
+                $data = simplexml_load_string($_trim);
+                break;
+            default:
+                $data = $response;
+        }
+
+        return $data;
     }
 
     public function response($reg) {
-        
+
         $query = http_build_query(array(
             "strUserName" => $this->username,
             "strPassword" => $this->password,
             "strClientRef" => $this->client_ref,
             "strClientDescription" => $this->client_desc,
             "strKey1" => $this->key,
-            "strVRM" => $reg            
+            "strVRM" => $reg
         ));
-        
-        $ch = curl_init();
-        $timeout = 5;
-        curl_setopt($ch, CURLOPT_URL, self::URL.$query);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
-        $data = curl_exec($ch);
 
-        $fileContents = $data;
-        $fileContents = str_replace(array("\n", "\r", "\t"), '', $fileContents);
-        $fileContents = trim(str_replace('"', "'", $fileContents));
-        $simpleXml = simplexml_load_string($fileContents);
-        return $simpleXml;
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, self::URL . $query);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
+        return curl_exec($ch);
     }
 
 }
