@@ -1,5 +1,5 @@
+require_once('CarWeb.php');
 
-include_once 'CarWeb.class.php';
-$c = new CarWeb("username", "password", "client_ref", "client_description", "key");
+use CarWeb\API as CarWebCaller;
 
-var_dump($c->search("UK REG", "json"));
+$c = new CarWebCaller($username, $password, $client_ref, $client_description, $key);
