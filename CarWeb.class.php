@@ -15,7 +15,7 @@ class CarWeb {
     public $client_ref;
     public $client_desc;
     public $key;
-    public $version;
+    public $version = 0.31.1;
 
     /**
      * Create a CarWeb Object
@@ -26,7 +26,7 @@ class CarWeb {
      * @param string $key 
      * @param string $version
      * */
-    public function __construct($username, $password, $client_ref, $client_description, $key, $version) {
+    public function __construct($username, $password, $client_ref, $client_description, $key) {
         $this->username = $username;
         $this->password = $password;
         $this->client_ref = $client_ref;
