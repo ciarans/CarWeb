@@ -1,12 +1,13 @@
 <?php
 
+namespace CarWeb;
+
 /**
  * CarWeb API
  *
  * @author Ciaran Synnott
- * @date 11/2015
  */
-class CarWeb {
+class API {
 
     const URL = "https://www1.carwebuk.com/CarweBVRRB2Bproxy/carwebvrrwebservice.asmx/strB2BGetVehicleByVRM?";
 
@@ -15,7 +16,7 @@ class CarWeb {
     public $client_ref;
     public $client_desc;
     public $key;
-    public $version = 0.31.1;
+    public $version = "0.31.1";
 
     /**
      * Create a CarWeb Object
@@ -32,7 +33,6 @@ class CarWeb {
         $this->client_ref = $client_ref;
         $this->client_desc = $client_description;
         $this->key = $key;
-        $this->version = $version;
     }
 
     /**
